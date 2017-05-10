@@ -1,0 +1,47 @@
+@font-face {font-family:Lato-Hairline;src:url("../fonts/Lato-Hairline.ttf");}
+@font-face {font-family:Lato-Medium;src:url("../fonts/Lato-Medium.ttf");}
+@font-face {font-family:Lato-Light;src:url("../fonts/Lato-Light.ttf");}
+@font-face {font-family:Lato-Black;src:url("../fonts/Lato-Black.ttf");}
+@font-face {font-family:Lato-Thin;src:url("../fonts/Lato-Thin.ttf");}
+* {-webkit-tap-highlight-color: rgba(0,0,0,0);}
+a,a:hover,a:active{color:inherit;text-decoration:none;font-family:Lato-Light;}
+html,body {-webkit-touch-callout: none;-webkit-text-size-adjust: none;-webkit-user-select: none;font-size:13px;height:100%;margin:0px;padding:0px;width:100%;overflow-y:hidden;}
+#topo{position:fixed;width:100%;height:10%;z-index:2;background-color:#652C90;box-shadow:0px 1px 8px #666666;color:white;}
+#topo .btn_topo{height:45%;margin:4%;display:block;}
+#topo .btn_topo img{height:100%;}
+#topo #label_topo{margin:3.5%;font-size:1.8em;font-family:Lato-Light;}
+#conteudo{display:block;position:fixed;width:100%;max-height:90%;height:90%;top:10%;z-index:0;overflow-y:auto;}
+#conteudo .layout_input{float:left;width:90%;margin:5%;margin-top:5%;font-family:Lato-Light;}
+#conteudo .layout_input .label_input{position:absolute;font-size:1em;z-index:1;margin-top:-5%;padding:2%;padding-left:0%;padding-right:0%;color:#652C90;font-family:Lato-Black;}
+#conteudo .line_input{float:left;width:95%;margin:2.5%;border-bottom:1px solid #828383;}
+#conteudo .layout_input .txt_input{width:80%;padding:2%;padding-left:0%;padding-right:10%;font-size:1.5em;background-color:white;}
+#conteudo .layout_input .img_input{float:left;height:100px;width:100px;margin:2%;margin-top:5%;padding-left:0%;background-size:cover;background-position:center;transition:all 0.5s;}
+#conteudo .layout_input .see_pass{position:absolute;width:7%;z-index:1;padding:2%;padding-left:0%;padding-right:0%;right:7%;}
+#conteudo .layout_input .see_pass img{width:100%;}
+#conteudo .layout_input input, #conteudo .layout_input textarea, #conteudo .layout_input select{width:90%;padding:2%;padding-left:0%;padding-right:10%;font-size:1.5em;border:0px;border-bottom:2px solid #666666;resize:none;background-color:white;font-family:Lato-Light;}
+#conteudo .layout_input input:focus, #conteudo .layout_input textarea:focus, #conteudo .layout_input select:focus{outline:none;border-bottom:2px solid #652C90;}
+#conteudo #erro{float:left;width:90%;margin:5%;color:red;margin-top:0%;font-size:1.1em;}
+#bottom{position:absolute;width:100%;bottom:0px;}
+#bottom .botao{float:left;width:40%;padding:5%;text-align:center;font-size:1.5em;color:white;}
+textarea{height:100px;}
+#fundo{display:none;position:fixed;background-color:black;width:100%;height:100%;z-index:3;opacity:0;transition:opacity 0.5s;}
+#progress{display:none;position:absolute;width:90%;left:5%;top:50%;box-shadow:0px 2px 4px #666666;background-color:white;z-index:10;border-radius:5px;}
+#progress #title_progress{width:85%;margin:5%;font-size:1.5em;}
+#progress #cont_progress{width:90%;margin:5%;display:table;border-top:1px solid #652C90;padding-top:5%;}
+#progress #cont_progress #img_progress{display:table-cell;width:90%;margin:0px;vertical-align:middle;}
+#progress #cont_progress #text_progress{display:table-cell;width:70%;margin:0px;vertical-align:middle;font-size:1.2em;}
+#loading{display:block;max-width:45%;margin:0px auto;margin-top:45%;}
+
+.inputfile {width: 0.1px;height: 0.1px;opacity: 0;overflow: hidden;position: absolute;z-index: -1;}
+.inputfile + label {font-size: 1.25em;font-weight: 700;color: white;background-color: black;display: inline-block;}
+.inputfile:focus + label,.inputfile + label:hover {background-color: red;}
+.inputfile:focus + label {outline: 1px dotted #000;outline: -webkit-focus-ring-color auto 5px;}
+.inputfile + label * {pointer-events: none;}
+
+.icon_rede{float:left;width:15%;margin-right:5%;}
+.icon_rede img{width:100%;}
+
+#table_tags{float:left;width:74%;border-radius:5px;padding:5%;border:1px solid #666666;margin-top:5%;}
+#table_tags .tag{display:table;float:left;border-radius:5px;padding:2%;background-color:#652C90;color:white;margin-right:2%;margin-bottom:2%;}
+#table_tags .tag span{display:table-cell;vertical-align:middle;padding-right:10px;}
+#table_tags .tag img{display:table-cell;vertical-align:middle;height:20px;}

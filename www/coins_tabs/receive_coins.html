@@ -1,0 +1,155 @@
+<div id="confirmacao">
+  <div class="label">De<div class="cont" id="de"></div></div>
+  <div class="label">Para<div class="cont" id="para"></div></div>
+  <div class="label">Valor<div class="cont" id="vs"></div></div>
+  <div class="label">Equivalente<div class="cont" id="rs"></div></div>
+  <div class="label">Data<div class="cont" id="data"></div></div>
+  <div class="button_coins" id="confirm" style="margin-top:10%;">Confirmar</div>
+  <div class="button_coins" id="cancel" style="margin-top:2%;">Cancelar</div>
+</div>
+<script>
+$('#cancel').on('click',function(){
+  pageCoins = 1;
+  loadPageCoins(1);
+  clearTimeout(sessao);
+});
+$('#confirm').on('click',function(){
+  clearTimeout(sessao);
+  if ( idpagante != 0 ){
+    cordova.plugin.pDialog.init({
+      theme : 'HOLO_LIGHT',
+      progressStyle : 'SPINNER',
+      cancelable : false,
+      title : 'Aguarde...',
+      message : 'Realizando transação.'
+    });
+    $.ajax({
+      type: "POST",
+      url: "http://usevou.com/app/conta.php",
+      data: {
+          'q': 'pay',
+          'idpagante': idpagante,
+          'idrecebedor': idrecebedor,
+          'nomepag': nomepag,
+          'nomerec': nomerec,
+          'valor': valor,
+          'data': data
+      },
+      async: false,
+      dataType: "json",
+      success: function (json) {
+        cordova.plugin.pDialog.dismiss();
+        if (json[0]['res'] == 1){
+          navigator.notification.confirm(
+            'Transferência realizada com sucesso.', // message
+             function(){pageCoins = 0;loadPageCoins(0);},
+            'Sucesso!',           // title
+            'OK'     // buttonLabels
+          );
+        } else {
+          navigator.notification.confirm(
+            'Ocorreu um erro na transferência, tente novamente.', // message
+             function(){scan();},
+            'Erro!',           // title
+            'OK'     // buttonLabels
+          );
+        }
+      },error: function(xhr,e,t){
+        cordova.plugin.pDialog.dismiss();
+        alert(xhr.responseText);
+      }
+    });
+  } else {
+    navigator.notification.confirm(
+      'Ocorreu um erro na transferência, tente novamente.', // message
+       function(){scan();},
+      'Erro!',           // title
+      'OK'     // buttonLabels
+    );
+  }
+});
+$('#cancel').on('touchstart',function(){
+  $('#cancel').css('background-color','rgba(101,44,144,0.8)');
+});
+$('#cancel').on('touchend',function(){
+  $('#cancel').css('background-color','#652C90');
+});
+$('#confirm').on('touchstart',function(){
+  $('#confirm').css('background-color','rgba(101,44,144,0.8)');
+});
+$('#confirm').on('touchend',function(){
+  $('#confirm').css('background-color','#652C90');
+});
+function scan(){
+    cordova.plugins.barcodeScanner.scan(
+      function (result) {
+        if(!result.cancelled){
+          if(result.format == "QR_CODE"){
+            sessao = setTimeout(function(){
+              navigator.notification.confirm(
+                'Sua sessão foi expirada, tente novamente.', // message
+                 function(){pageCoins = 1;loadPageCoins(1);clearTimeout(sessao);},
+                'Sessão expirada!',           // title
+                'OK'     // buttonLabels
+              );
+            },30000);
+            var json = JSON.parse(result.text);
+
+            var data = new Date();
+
+            var dia = data.getDate();
+            var mes = data.getMonth();
+            var ano = data.getFullYear();
+            var hr  = data.getHours();
+            var min = data.getMinutes();
+            var seg = data.getSeconds();
+            var time = data.getTime();
+
+            idpagante = json[0]["idusuario"];
+            idrecebedor = window.localStorage.getItem('IdUsu');
+            nomepag = json[0]["nome"];
+            nomerec = window.localStorage.getItem('NomeUsu');
+            valor = json[0]["valor"];
+            var dt = (dia<10?'0':'') + dia + '/' + ((mes+1)<10?'0':'') + (mes+1) + '/' + ano;
+            data = ano + '-' + ((mes+1)<10?'0':'') + (mes+1) + '-' + (dia<10?'0':'') + dia;
+            hora = (hr<10?'0':'') + hr + ':' + (min<10?'0':'') + min + ':' + (seg<10?'0':'') + seg;
+            data += " " + hora;
+            $('#de').html(nomepag);
+            $('#para').html(nomerec);
+            $('#vs').html('V$ '+valor);
+            $('#rs').html('R$ '+(valor * 0.05 * 0.8).toFixed(2));
+            $('#data').html(dt + ' às ' + hora);
+            if ( (time - json[0]["time"]) > 30000 ){
+              navigator.notification.confirm(
+                'Tempo do QRCode expirado, tente novamente.', // message
+                 function(){scan();clearTimeout(sessao);},
+                'Ocorreu um erro!',           // title
+                'OK'     // buttonLabels
+              );
+            }
+          }
+        } else {
+          pageCoins = 1;
+          loadPageCoins(1);
+          clearTimeout(sessao);
+        }
+      },
+      function (error) {
+        alert("Scanning failed: " + error);
+      }
+   );
+}
+
+var idpagante = 0;
+var idrecebedor = 0;
+var nomepag = '';
+var nomerec = '';
+var data = '';
+var hora = '';
+var valor = 0;
+
+scan();
+
+var sessao;
+
+</script>

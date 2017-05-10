@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="../css/edit_profile.css">
+        <title>Vou</title>
+    </head>
+    <body>
+      <div id="topo">
+        <div class="btn_topo" id="back" style="float:left;"><img src="../img/sets/ic_back.png"></div>
+        <div class="btn_topo" id="confirm" style="float:right;"><img src="../img/sets/ic_talvez.png"></div>
+        <div id="label_topo">Editar perfil</div>
+      </div>
+      <div id="conteudo">
+        <div class="layout_input" id="laynome" style="margin-top:10%;">
+          <div class="label_input">Nome</div>
+          <div class="see_pass" id="see_nome">
+            <img src="../img/sets/ic_edit_password.png" id="edit_nome">
+            <img src="../img/sets/ic_talvez_cinza.png" style="display:none;width:45%;" id="confirm_nome">
+            <img src="../img/sets/ic_exit.png" style="display:none;width:45%;" id="cancel_nome">
+          </div>
+          <div class="txt_input" id="nome"></div>
+        </div>
+        <div class="line_input"></div>
+        <div class="layout_input" id="laydate">
+          <div class="label_input">Data de nascimento</div>
+          <div class="see_pass" id="see_date">
+            <img src="../img/sets/ic_edit_password.png" id="edit_date">
+            <img src="../img/sets/ic_talvez_cinza.png" style="display:none;width:45%;" id="confirm_date">
+            <img src="../img/sets/ic_exit.png" style="display:none;width:45%;" id="cancel_date">
+          </div>
+          <div class="txt_input" id="date"></div>
+        </div>
+        <div class="line_input"></div>
+        <div class="layout_input" id="laycidade">
+          <div class="label_input" id="lCidade">Cidade</div>
+          <div class="see_pass" id="see_cidade">
+            <img src="../img/sets/ic_edit_password.png" id="edit_cidade">
+            <img src="../img/sets/ic_talvez_cinza.png" style="display:none;width:45%;" id="confirm_cidade">
+            <img src="../img/sets/ic_exit.png" style="display:none;width:45%;" id="cancel_cidade">
+          </div>
+          <div class="txt_input" id="cidade"></div>
+        </div>
+        <div class="line_input"></div>
+        <div class="layout_input" id="layrel">
+          <div class="label_input">Relacionamento</div>
+          <div class="see_pass" id="see_rel">
+            <img src="../img/sets/ic_edit_password.png" id="edit_rel">
+            <img src="../img/sets/ic_talvez_cinza.png" style="display:none;width:45%;" id="confirm_rel">
+            <img src="../img/sets/ic_exit.png" style="display:none;width:45%;" id="cancel_rel">
+          </div>
+          <div class="txt_input" id="rel"></div>
+        </div>
+        <div class="line_input"></div>
+        <div class="layout_input" id="laygen">
+          <div class="label_input">Gênero</div>
+          <div class="see_pass" id="see_gen">
+            <img src="../img/sets/ic_edit_password.png" id="edit_gen">
+            <img src="../img/sets/ic_talvez_cinza.png" style="display:none;width:45%;" id="confirm_gen">
+            <img src="../img/sets/ic_exit.png" style="display:none;width:45%;" id="cancel_gen">
+          </div>
+          <div class="txt_input" id="gen"></div>
+        </div>
+        <div class="line_input"></div>
+        <div class="layout_input" id="layint">
+          <div class="label_input">Interesse</div>
+          <div class="see_pass" id="see_int">
+            <img src="../img/sets/ic_edit_password.png" id="edit_int">
+            <img src="../img/sets/ic_talvez_cinza.png" style="display:none;width:45%;" id="confirm_int">
+            <img src="../img/sets/ic_exit.png" style="display:none;width:45%;" id="cancel_int">
+          </div>
+          <div id="input_tag"></div>
+          <div id="table_tags">Nenhuma tag adicionada</div>
+        </div>
+        <div class="line_input"></div>
+        <div class="layout_input" id="laydesc">
+          <div class="label_input">Descrição</div>
+          <div class="see_pass" id="see_desc">
+            <img src="../img/sets/ic_edit_password.png" id="edit_desc">
+            <img src="../img/sets/ic_talvez_cinza.png" style="display:none;width:45%;" id="confirm_desc">
+            <img src="../img/sets/ic_exit.png" style="display:none;width:45%;" id="cancel_desc">
+          </div>
+          <div class="txt_input" id="desc"></div>
+        </div>
+        <!--<div class="line_input"></div>
+        <div class="layout_input" id="layrede">
+          <div class="label_input">Redes sociais</div>
+          <div class="see_pass" id="see_rede">
+            <img src="../img/sets/ic_edit_password.png" id="edit_rede">
+            <img src="../img/sets/ic_talvez_cinza.png" style="display:none;width:45%;" id="confirm_rede">
+            <img src="../img/sets/ic_exit.png" style="display:none;width:45%;" id="cancel_rede">
+          </div>
+          <div class="txt_input" id="rede"></div>
+        </div>-->
+      </div>
+      <div id="fundo"></div>
+      <script src="../js/jquery.min.js"></script>
+      <script src="../js/jquery.maskedinput.js"></script>
+      <script type="text/javascript" src="../cordova.js"></script>
+      <script type="text/javascript" src="../js/edit_profile.js"></script>
+    </body>
+</html>

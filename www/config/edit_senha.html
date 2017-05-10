@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="../css/config.css">
+        <title>Vou</title>
+    </head>
+    <body>
+      <div id="fundo"></div>
+      <div id="topo">
+        <div class="btn_topo" id="back" style="float:left;"><img src="../img/sets/ic_back.png"></div>
+        <div class="btn_topo" id="conf" style="float:right;"><img src="../img/sets/ic_talvez.png"></div>
+        <div id="label_topo">Editar senha</div>
+      </div>
+      <div id="conteudo">
+        <div class="layout_input">
+          <div class="label_input" id="lSenha_atual">Senha atual</div>
+          <div class="see_pass" id="see_senha_atual">
+            <img src="../img/sets/ic_see_password.png">
+          </div>
+          <input type="password" name="senha_atual" id="senha_atual" autocomplete="off" style="padding-right:10%;width:76%;">
+        </div>
+        <div class="layout_input">
+          <div class="label_input" id="lNova_senha">Nova senha</div>
+          <div class="see_pass" id="see_nova_senha">
+            <img src="../img/sets/ic_see_password.png">
+          </div>
+          <input type="password" name="nova_senha" id="nova_senha" autocomplete="off" style="padding-right:10%;width:76%;">
+        </div>
+        <div class="layout_input">
+          <div class="label_input" id="lRep_senha">Repita a nova senha</div>
+          <div class="see_pass" id="see_rep_senha">
+            <img src="../img/sets/ic_see_password.png">
+          </div>
+          <input type="password" name="rep_senha" id="rep_senha" autocomplete="off" style="padding-right:10%;width:76%;">
+        </div>
+      </div>
+      <script src="../js/jquery.min.js"></script>
+      <script type="text/javascript" src="../cordova.js"></script>
+      <script type="text/javascript" src="../js/edit_senha.js"></script>
+    </body>
+</html>

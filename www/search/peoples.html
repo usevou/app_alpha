@@ -1,0 +1,42 @@
+<div id="search"></div>
+<script>
+$('#search').html("<img src='img/sets/loading.gif' id='feed_load'>");
+function loadSearch(pesq,limit){
+  v = pesq;
+  $.ajax({
+    type: "POST",
+    url: "http://usevou.com/app/search.php",
+    data: {
+        'q': 'usu',
+        'pesq': pesq,
+        'limit': limit,
+        'max': 10
+    },
+    async: true,
+    dataType: "json",
+    success: function (json) {
+      if (json[0]['res'] == 1){
+        html = '';
+        for(var i=0;i<json.length;i++){
+          html += '<div class="card" onclick="localStorage.setItem(\'viewProfile\','+json[i]['id']+');window.location.href = \'menu_lat/profile.html\'"><div class="cabecalho_card" style="margin:0px;">'+
+            '<div class="ft_perfil_card_pesq" style="background-image:url('+json[i]["foto"]+')"></div>'+
+            '<div class="info_card">'+
+              '<div class="nome_card">'+json[i]["nome"]+'</div>'+
+            '</div>'+
+          '</div></div>';
+        }
+        if ( i < 10 ){
+          l = -50;
+        }
+        $('#search').html(html);
+        $('.ft_perfil_card_pesq').height($('.ft_perfil_card_pesq').width());
+      } else {
+        $('#search').html("Nada encontrado entre pessoas.");
+      }
+    },error: function(xhr,e,t){
+      alert(xhr.responseText);
+    }
+  });
+}
+loadSearch(v,0)
+</script>

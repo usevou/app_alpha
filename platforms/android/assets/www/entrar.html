@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="css/cadastrar.css">
+        <title>Vou</title>
+    </head>
+    <body>
+      <div id="fundo"></div>
+      <div id="topo">
+        <div class="btn_topo" id="back" style="float:left;"><img src="img/sets/ic_back.png"></div>
+        <div id="label_topo">Entrar</div>
+      </div>
+      <div id="conteudo">
+        <div id="ft_perfil"></div>
+        <div class="layout_input">
+          <div class="label_input" id="lLogin">Usuário</div>
+          <input type="text" name="login" id="login" autocomplete="off">
+        </div>
+        <div class="layout_input">
+          <div class="label_input" id="lSenha">Senha</div>
+          <div class="see_pass" id="see">
+            <img src="img/sets/ic_see_password.png">
+          </div>
+          <input type="password" name="senha" id="senha" autocomplete="off" style="padding-right:10%;width:76%;">
+        </div>
+        <div id="erro"></div>
+      </div>
+      <div id="bottom">
+        <div class="botao" id="next" style="background:#652C90;width:90%;">Entrar</div>
+      </div>
+      <div id="progress">
+        <div id="title_progress"></div>
+        <div id="cont_progress">
+          <img id="img_progress" src="img/sets/loading.gif">
+          <div id="text_progress"></div>
+        </div>
+      </div>
+      <script src="js/jquery.min.js"></script>
+      <script type="text/javascript" src="cordova.js"></script>
+      <script type="text/javascript" src="js/entrar.js"></script>
+    </body>
+</html>

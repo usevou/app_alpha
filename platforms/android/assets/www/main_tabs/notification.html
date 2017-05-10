@@ -1,0 +1,117 @@
+<div id="notify"></div>
+<script>
+limit = 0;
+
+$("#conteudo").scroll(function() {
+  if ($(this).scrollTop() + $(this).height() == $(this).get(0).scrollHeight) {
+    if ( limit >= 0 ){
+      limit += 10;
+      loadNotify();
+    }
+  }
+});
+            //like                  comment                   shared                  curt_coment            evento                        seguir                 organiador
+var type = ['img/sets/ic_like.png','img/sets/ic_comment.png','img/sets/ic_shared.png','img/sets/ic_like.png','img/sets/ic_checkin_on.png','img/sets/ic_conv.png','img/sets/ic_checkin_on.png'];
+
+function loadNotify(){
+  $.ajax({
+    type: "POST",
+    url: "http://usevou.com/app/profile.php",
+    data: {
+        'q': 'notify',
+        'idusuario': window.localStorage.getItem('IdUsu'),
+        'limit': limit
+    },
+    async: true,
+    dataType: "json",
+    success: function (json) {
+      if ( limit == 0 ){
+        $('#notify').html('');
+      } else {
+        $('#feed_load').remove();
+      }
+      if (json[0]['res'] == 1){
+        html = '';
+        for(var i=0;i<json.length;i++){
+          html += '<div class="notification">'+
+                    '<div class="ft_perfil_noti" style="background-image:url('+json[i]['foto']+')" onclick="localStorage.setItem(\'viewProfile\','+json[i]['idusu']+');window.location.href=\'menu_lat/profile.html\'"></div>'+
+                    '<div class="content_noti" ';
+          if ( json[i]['tipo'] == 0 ){
+            html += ' onclick="localStorage.setItem(\'idpost\','+json[i]['idpost']+');window.location.href=\'postagem.html\'"';
+          } else if ( json[i]['tipo'] == 1 ){
+            html += ' onclick="localStorage.setItem(\'idpost\','+json[i]['idpost']+');window.location.href=\'postagem.html\'"';
+          } else if ( json[i]['tipo'] == 2 ){
+            html += ' onclick="localStorage.setItem(\'idpost\','+json[i]['idpost']+');window.location.href=\'postagem.html\'"';
+          } else if ( json[i]['tipo'] == 3 ){
+            html += ' onclick="localStorage.setItem(\'idpost\','+json[i]['idpost']+');window.location.href=\'postagem.html\'"';
+          } else if ( json[i]['tipo'] == 4 ){
+            html += ' onclick="localStorage.setItem(\'viewEvent\','+json[i]['ideve']+');window.location.href=\'evento.html\'"';
+          } else if ( json[i]['tipo'] == 5 ){
+            html += ' onclick="localStorage.setItem(\'viewProfile\','+json[i]['idusu']+');window.location.href=\'menu_lat/profile.html\'"';
+          } else if ( json[i]['tipo'] == 6 ){
+            html += ' onclick="localStorage.setItem(\'viewEvent\','+json[i]['ideve']+');window.location.href=\'evento.html\'"';
+          }
+          html += '><div class="prin_noti"><span onclick="localStorage.setItem(\'viewProfile\','+json[i]['idusu']+');window.location.href=\'menu_lat/profile.html\'">'+(json[i]['idusu']==window.localStorage.getItem('IdUsu')?'Você':json[i]['nome'])+'</span>';
+          if ( json[i]['tipo'] == 0 ){
+            html += ' curtiu sua publicação.</div>';
+          } else if ( json[i]['tipo'] == 1 ){
+            html += ' comentou sua publicação.</div>';
+          } else if ( json[i]['tipo'] == 2 ){
+            html += ' compartilhou sua publicação.</div>';
+          } else if ( json[i]['tipo'] == 3 ){
+            html += ' curtiu seu comentário.</div>';
+          } else if ( json[i]['tipo'] == 4 ){
+            html += ' confirmou um evento seu.</div>';
+          } else if ( json[i]['tipo'] == 5 ){
+            html += ' seguiu você.</div>';
+          } else if ( json[i]['tipo'] == 6 ){
+            html += ' adicionou você como organizador de um evento.</div>';
+          }
+          html += '<div class="time_noti">';
+          var hor = parseInt(json[i]['diff'].substr(0,2));
+          var min = parseInt(json[i]['diff'].substr(3,2));
+          var seg = parseInt(json[i]['diff'].substr(6,2));
+          if ( hor == 0 ){
+            if ( min == 0 ){
+              html += 'Agora mesmo';
+            } else {
+              html += 'Há '+min+' minuto'+(min==1?'':'s')+' atrás';
+            }
+          } else if ( hor < 24  ){
+            html += 'Há '+hor+' hora'+(hor==1?'':'s')+' atrás';
+          } else if ( hor < 96 ) {
+            var t = parseInt(hor / 24);
+            html += 'Há '+t+' dias atrás';
+          } else {
+            html += json[i]['dt_hr'];
+          }
+          html += '</div></div>'+
+                    '<div class="type_noti">'+
+                      '<img src="'+type[json[i]['tipo']]+'">'+
+                    '</div>'+
+                  '</div>';
+          html += '</div><div class="line"></div>';
+        }
+        if ( i == 10 ){
+          html += "<img src='img/sets/loading.gif' id='feed_load'>";
+        } else {
+          limit = -50;
+        }
+        $('#notify').append(html);
+        $('.ft_perfil_noti').height($('.ft_perfil_noti').width());
+      } else {
+        if ( limit == 0 ){
+          $('#notify').append('<div style="text-align:center;margin-top:10%;font-size:1.5em;width:80%;margin-left:10%;font-family:Lato-Light;">Não há nenhuma notificação.</div>');
+        } else {
+          $('#notify').append('<div style="text-align:center;margin-top:2.5%;margin-bottom:2.5%;font-size:1.5em;width:80%;margin-left:10%;font-family:Lato-Light;">.</div>');
+            limit = -50;
+        }
+      }
+    },error: function(xhr,e,t){
+      alert(xhr.responseText);
+    }
+  });
+}
+
+loadNotify();
+</script>

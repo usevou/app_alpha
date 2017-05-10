@@ -1,0 +1,18 @@
+@font-face {font-family:Lato-Light;src:url("../fonts/Lato-Light.ttf");}
+@font-face {font-family:Lato-Black;src:url("../fonts/Lato-Black.ttf");}
+* {-webkit-tap-highlight-color: rgba(0,0,0,0);}
+a,a:hover,a:active{color:inherit;text-decoration:none;}
+html,body {-webkit-touch-callout: none;-webkit-text-size-adjust: none;-webkit-user-select: none;font-size:13px;height:100%;margin:0px;padding:0px;width:100%;overflow-y:hidden;}
+#topo{position:fixed;width:100%;height:10%;z-index:2;background-color:#652C90;box-shadow:0px 1px 8px #666666;color:white;}
+#topo .btn_topo{height:45%;margin:4%;}
+#topo .btn_topo img{height:100%;}
+#topo #label_topo{margin:3.5%;font-size:1.8em;font-family:Lato-Light;}
+#conteudo{display:block;position:fixed;width:100%;max-height:90%;height:90%;top:10%;z-index:0;overflow-y:auto;}
+#noti .notification{display:table;width:90%;padding:5%;}
+#noti .notification .ft_perfil_noti{display:table-cell;width:15%;background-size:cover;background-position:center;border-radius:50%;vertical-align:middle;}
+#noti .notification .content_noti{display:table-cell;vertical-align:middle;padding-left:5%;padding-right:5%;font-family:Lato-Black;}
+#noti .notification .type_noti{display:table-cell;width:12%;vertical-align:middle;}
+#noti .notification .type_noti img{width:100%;}
+#noti .line{width:90%;border-bottom:1px solid #652C90;margin-left:5%;}
+#loading{display:block;max-width:45%;margin:0px auto;margin-top:45%;}
+#feed_load{display:block;max-width:25%;margin:0px auto;margin-top:5%;}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="../css/qr_code.css">
+        <title>Vou</title>
+    </head>
+    <body>
+      <div id="topo">
+        <div class="btn_topo" id="back" style="float:left;"><img src="../img/sets/ic_back.png"></div>
+        <div id="label_topo">Pagar</div>
+      </div>
+      <div id="conteudo">
+        <div id="qr">
+          <img src='../img/sets/loading.gif' id='loading'>
+        </div>
+        <div id="info">
+          <div class="i">
+            <div class="lbl">Nome:</div>
+            <div id="nome" class="cont"></div>
+          </div>
+          <div class="i">
+            <div class="lbl">Valor:</div>
+            <div id="valor" class="cont"></div>
+          </div>
+        </div>
+      </div>
+      <div id="aviso">O QRCode é atualizado automaticamente de 30 em 30 segundos</div>
+      <img src="../img/logo.png" id="img">
+      <script src="../js/jquery.min.js"></script>
+      <script src="../js/jquery-qrcode-0.14.0.js"></script>
+      <script type="text/javascript" src="../js/qr_code.js"></script>
+    </body>
+</html>

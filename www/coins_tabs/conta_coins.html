@@ -1,0 +1,98 @@
+<div id="coins">
+  <div id="label_coins">Saldo</div>
+  <div id="saldo_coins"><span id="lvs">V$</span> 0</div>
+</div>
+<div id="extrato_coins">
+  <div id="intervalo_coins">
+    <div class="data_coins">
+      <span>De:</span>
+      <input type="date" id="de">
+    </div>
+    <div class="data_coins">
+      <span>Até:</span>
+      <input type="date" id="ate">
+    </div>
+  </div>
+  <div id="tabela_coins">
+    <img src='img/sets/loading.gif' id='loading' style="margin-top:5%;">
+  </div>
+</div>
+<script>
+  var y = new Date().getFullYear();
+  var m = new Date().getMonth() + 1 +"";
+  var d = new Date().getDate() + "";
+
+  var yd = new Date().getFullYear();
+  var md = new Date().getMonth() + 1;
+  var dd = new Date().getDate() - 30;
+
+  if ( dd < 1 ){md -= 1;}
+  if ( md == 0 ){md = 12;yd -= 1;}
+  dd = 30 + dd;
+  md += "";
+  dd += "";
+
+  if ( m.length == 1 ){m = "0"+m;}
+  if ( d.length == 1 ){d = "0"+d;}
+  if ( md.length == 1 ){md = "0"+md;}
+  if ( dd.length == 1 ){dd = "0"+dd;}
+
+  console.log(yd+"-"+md+"-"+dd);
+
+  $('#de').val(yd+"-"+md+"-"+dd);
+  $('#ate').val(y+"-"+m+"-"+d);
+
+  function show(ini,fim){
+    $.ajax({
+      type: "POST",
+      url: "http://usevou.com/app/conta.php",
+      data: {
+          'q': 'sel',
+          'login': window.localStorage.getItem('login'),
+          'dt_ini': ini,
+          'dt_fim': fim
+      },
+      async: true,
+      dataType: "json",
+      success: function (json) {
+        if (json[0]['res'] == 1){
+          $('#tabela_coins').html('');
+          for (var i=0;i<json.length;i++){
+            var tipo = json[i]['tipo'];
+            var descricao = json[i]['descricao'];
+            var valor = json[i]['valor'];
+            var dt_hr = json[i]['dt_hr'];
+            $('#saldo_coins').html('<span id="lvs">V$</span> '+json[i]['saldo']);
+            localStorage.setItem('SaldoCoins',json[i]['saldo']);
+            $('#tabela_coins').append('<div class="linha_coins">'+
+              '<div class="coluna">'+
+                '<div class="tipo_coins '+(tipo==0?'saida':'entrada')+'">'+(tipo==0?'<img src="img/sets/ic_saida.png">Saída':'<img src="img/sets/ic_entrada.png">Entrada')+'</div>'+
+                '<div class="content_coins">'+descricao+'</div>'+
+                '<div class="data_coins">'+dt_hr+'</div>'+
+              '</div>'+
+              '<div class="coluna">'+
+                '<div class="valor_coins '+(tipo==0?'saida':'entrada')+'">'+(tipo==0?'-':'+')+' V$'+valor+'</div>'+
+              '</div>'+
+            '</div>');
+          }
+        } else {
+            $('#tabela_coins').html('<div class="linha_coins">Nenhum resultado encontrado</div>');
+        }
+      },error: function(xhr,e,t){
+        console.log(xhr.responseText);
+      }
+    });
+  }
+
+  show(yd+"-"+md+"-"+dd,y+"-"+m+"-"+(parseInt(d)+1));
+
+  $('#de').change(function(){
+    $('#tabela_coins').html('<img src="img/sets/loading.gif" id="loading" style="margin-top:5%;">');
+    show($('#de').val(),$('#ate').val())
+  });
+
+  $('#ate').change(function(){
+    $('#tabela_coins').html('<img src="img/sets/loading.gif" id="loading" style="margin-top:5%;">');
+    show($('#de').val(),$('#ate').val())
+  });
+</script>

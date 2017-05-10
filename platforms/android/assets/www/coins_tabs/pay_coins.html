@@ -1,0 +1,63 @@
+<div id="coins">
+  <div id="label_coins" style="float:none;">Valor para pagamento</div>
+  <div class="input_coins"><span>V$</span><input type="number" id="vs" value="0"></div>
+  <div class="input_coins"><span>R$</span><input type="number" pattern="\d*" id="rs" value="0"></div>
+</div>
+<div class="button_coins" id="gerar">Gerar QRCode</div>
+<script>
+function mascara(o,f){
+  v_obj=o
+  v_fun=f
+  setTimeout("execmascara()",1)
+}
+function execmascara(){
+  v_obj.value=v_fun(v_obj.value)
+}
+function mvalor(v){
+    v=v.replace(/\D/g,"");//Remove tudo o que não é dígito
+
+    v=v.replace(/(\d)(\d{2})$/,"$1.$2");//coloca a virgula antes dos 2 últimos dígitos
+    return v;
+}
+  $('#gerar').on('click',function(){
+    if ( parseFloat($('#vs').val()) <= parseFloat(localStorage.getItem('SaldoCoins')) ){
+      localStorage.setItem('valor',$('#vs').val());
+      window.location.href = "coins_tabs/qr_code.html";
+    } else {
+      navigator.notification.confirm(
+        'Você não tem saldo suficiente para continuar.', // message
+         null,
+        'Saldo insuficiente!',           // title
+        'OK'     // buttonLabels
+      );
+    }
+  });
+  $('.button_coins').on('touchstart',function(){
+    $('.button_coins').css('background-color','rgba(101,44,144,0.8)');
+  });
+  $('.button_coins').on('touchend',function(){
+    $('.button_coins').css('background-color','#652C90');
+  });
+
+  $('#vs').each(function() {
+   var elem = $(this);
+
+   elem.data('oldVal', elem.val());
+
+   elem.bind("propertychange change click keyup input paste", function(event){
+      if (elem.data('oldVal') != elem.val()) {
+       elem.data('oldVal', elem.val());
+       var conv = elem.val() * 0.05 * 0.8;
+       $('#rs').val(conv.toFixed(2));
+     }
+   });
+ });
+
+  $('#rs').bind("propertychange change click keyup input paste", function(event){
+    mascara(this, mvalor);
+    setTimeout(function(){
+      var conv = $('#rs').val() / 0.05 * 1.25;
+      $('#vs').val(conv.toFixed(0));
+    },2)
+  });
+</script>

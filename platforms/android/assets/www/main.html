@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <link rel="stylesheet" type="text/css" href="leaflet/leaflet.css" />
+        <title>Vou</title>
+    </head>
+    <body>
+      <div id="fundo"></div>
+      <div id="fundo_busca"></div>
+      <div id="busca"></div>
+      <div id="action_menu_lat"></div>
+      <div id="menu_lat">
+        <a href="menu_lat/profile.html" onclick="localStorage.setItem('viewProfile',window.localStorage.getItem('IdUsu'))">
+          <div id="header_menu_lat" style="background-image:url('img/sets/capa_default.png');">
+            <div id="fundo_capa"></div>
+            <div id="cont_menu_lat">
+              <div id="ft_menu_lat">
+                <div id="foto_perfil" style="background-image:url('img/sets/profile_default.png');"></div>
+              </div>
+              <div id="txt_menu_lat">
+                <div id="nome">Gustavo Oldenburg</div>
+              </div>
+            </div>
+          </div>
+        </a>
+        <ul>
+          <a href="menu_lat/profile.html" onclick="localStorage.setItem('viewProfile',window.localStorage.getItem('IdUsu'))"><li style="padding-top:8%;"><img src="img/sets/ic_perfil.png"><span>Perfil</span></li></a>
+          <!--<li><img src="img/sets/ic_msg.png"><span>Mensagens</span></li>-->
+          <a href="menu_lat/agenda.html"><li><img src="img/sets/ic_agenda.png"><span>Agenda</span></li></a>
+          <a href="menu_lat/invites.html"><li><img src="img/sets/ic_convite.png"><span>Convites</span></li></a>
+          <a href="config.html"><li><img src="img/sets/ic_config.png"><span>Configurações</span></li></a>
+          <li id="exit"><img src="img/sets/ic_exit.png"><span>Sair</span></li>
+        </ul>
+        <div id="logo_menu_lat"><img src="img/sets/logo_main.png"></div>
+      </div>
+      <div id="filtro_lat">
+        <div id="cont_filtro">
+          <div id="datas">
+            <div class="layout_input">
+              <div class="label_input" id="lDtini">De</div>
+              <input type="date" name="dtini" id="dtini" autocomplete="off">
+            </div>
+            <div class="layout_input">
+              <div class="label_input" id="lDtfim">Até</div>
+              <input type="date" name="dtfim" id="dtfim" autocomplete="off">
+            </div>
+          </div>
+          <div id="tags"></div>
+        </div>
+        <div id="btn">
+          <div class="btn_filtro" id="apl">Aplicar</div>
+          <div class="btn_filtro" style="background-color:#27A9E1;margin-top:0%;" id="reset">Resetar</div>
+        </div>
+      </div>
+      <div id="topo">
+        <div class="btn_topo" style="float:left;border-radius:50%;background:url('img/sets/ic_menu.png');background-size:cover;background-position:center;" id="open_menu_lat"></div>
+        <div id="logo_topo"><img src="img/sets/logo_index.png"></div>
+        <div class="btn_topo" style="float:right;" id="pesq"><img src="img/sets/ic_pesq.png"></div>
+        <input type="text" id="edt_pesq">
+      </div>
+      <div id="barra">
+        <ul>
+          <li id="home"><img src="img/sets/ic_home.png"></li>
+          <li id="even"><img src="img/sets/ic_evento.png"></li>
+          <li id="coin"><img src="img/sets/ic_coin.png"></li>
+          <li id="noti"><img src="img/sets/ic_notifi.png"></li>
+        </ul>
+        <div id="tab_barra"></div>
+      </div>
+      <div id="conteudo"></div>
+      <div id="barra_bottom"></div>
+      <div id="floating"><img src="img/sets/ic_publication.png"></div>
+      <script src="js/jquery.min.js"></script>
+      <script src="js/jquery.numeric.js"></script>
+      <script type="text/javascript" src="cordova.js"></script>
+      <script type="text/javascript" src="leaflet/leaflet.js"></script>
+      <script type="text/javascript" src="js/main.js"></script>
+    </body>
+</html>

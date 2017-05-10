@@ -1,0 +1,30 @@
+@font-face {font-family:Lato-Hairline;src:url("../fonts/Lato-Hairline.ttf");}
+@font-face {font-family:Lato-Medium;src:url("../fonts/Lato-Medium.ttf");}
+@font-face {font-family:Lato-Light;src:url("../fonts/Lato-Light.ttf");}
+@font-face {font-family:Lato-Black;src:url("../fonts/Lato-Black.ttf");}
+@font-face {font-family:Lato-Thin;src:url("../fonts/Lato-Thin.ttf");}
+* {-webkit-tap-highlight-color: rgba(0,0,0,0);}
+a,a:hover,a:active{color:inherit;text-decoration:none;}
+html,body {-webkit-touch-callout: none;-webkit-text-size-adjust: none;-webkit-user-select: none;font-size:13px;height:100%;margin:0px;padding:0px;width:100%;overflow-y:hidden;}
+#topo{position:fixed;width:100%;height:10%;z-index:2;background-color:#652C90;box-shadow:0px 1px 8px #666666;color:white;}
+#topo .btn_topo{height:45%;margin:4%;}
+#topo .btn_topo img{height:100%;}
+#topo #label_topo{margin:3.5%;font-size:1.8em;font-family:Lato-Light;}
+#conteudo{display:block;position:fixed;width:100%;max-height:90%;height:90%;top:10%;z-index:0;overflow-y:auto;}
+
+#conteudo .config_block{float:left;width:90%;margin:2.5% 5%;}
+#conteudo .config_block:first-child{margin:5% 5% 2.5% 5%;}
+#conteudo .config_block .config_title{float:left;width:100%;padding:2% 0%;;border-bottom:1px solid #27A9E1;font-size:0.9em;font-family:Lato-Medium;color:#27A9E1;}
+#conteudo .config_block .config_cont{float:left;width:90%;font-family:Lato-Light;}
+#conteudo .config_block .config_cont .config_item{float:left;width:100%;padding:5%;}
+#conteudo .config_block .config_cont .config_item .title_item{float:left;font-size:1.1em;}
+#conteudo .config_block .config_cont .config_item .cont_item{float:right;font-size:1.2em;color:#666666;font-family:Lato-Medium;}
+#conteudo .config_block .config_cont .config_item .cont_item img{float:right;width:100%;}
+#conteudo .config_block .config_cont .config_item .desc_item{float:left;width:100%;font-size:0.9em;color:#652C90;font-family:Lato-Light;}
+
+#conteudo .layout_input{float:left;width:90%;margin:5%;margin-bottom:15%;margin-top:10%;}
+#conteudo .layout_input .label_input{position:absolute;font-size:1.5em;transition:all 0.5s;z-index:1;padding:2%;padding-left:0%;padding-right:0%;font-family:Lato-Light;}
+#conteudo .layout_input .see_pass{position:absolute;width:7%;z-index:1;padding:2%;padding-left:0%;padding-right:0%;right:10%;}
+#conteudo .layout_input .see_pass img{width:100%;}
+#conteudo .layout_input input{position:absolute;width:86%;padding:2%;padding-left:0%;padding-right:0%;font-size:1.5em;border:0px;border-bottom:2px solid #666666;font-family:Lato-Light;}
+#conteudo .layout_input input:focus{outline:none;border-bottom:2px solid #652C90;}

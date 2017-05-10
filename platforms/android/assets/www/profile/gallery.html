@@ -1,0 +1,50 @@
+<div id="images"><img src='../img/sets/loading.gif' id='loading'></div>
+<script>
+var id = localStorage.getItem('viewProfile');
+var limit = 0;
+var w = [1,0,0,1,1,0,0,1,1,0,0,1];
+function loadGallery(){
+  $.ajax({
+    type: "POST",
+    url: "http://usevou.com/app/profile.php",
+    data: {
+        'q': 'gallery',
+        'id': id,
+        'limit': limit
+    },
+    async: true,
+    dataType: "json",
+    success: function (json) {
+      if (json[0]['res'] == 1){
+        if ( limit == 0 ){
+          $('#images').html('');
+        }
+        html = '';
+        for(var i=0;i<json.length;i++){
+          html += '<div class="image" style="background-image:url('+json[i]['url']+');width:calc('+(w[i]==0?'33.333':'66.666')+'% - 8px)" onclick="localStorage.setItem(\'idpost\','+json[i]['id']+');window.location.href=\'../postagem.html\'"></div>';
+        }
+        $('#images').append(html);
+        $('.image').height(112);
+      } else {
+        if ( limit == 0 )
+          $('#images').html('<div style="float:left;text-align:center;margin:10%;font-size:1.5em;width:80%;font-family:Lato-Light;">Infelizmente não há nenhuma mídia para mostrar.</div>');
+        limit = -50;
+      }
+    },error: function(xhr,e,t){
+      console.log(xhr.responseText);
+      alert(xhr.responseText);
+    }
+  });
+}
+
+$(document).scroll(function() {
+  if ($(this).scrollTop() + $('body').height() == $(this).get(0).scrollingElement.scrollHeight) {
+    if ( limit >= 0 ){
+      limit += 12;
+      loadGallery();
+    }
+  }
+});
+
+loadGallery();
+</script>

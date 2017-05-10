@@ -1,0 +1,235 @@
+<div id="barra_event">
+  <ul>
+    <li id="conf" class="sel">Confirmados</li>
+    <li id="cri">Criados</li>
+    <li id="org">Organizados</li>
+  </ul>
+  <div id="tab_barra_event"></div>
+</div>
+<div id="cont_my_event"></div>
+<script>
+$('#conf').on('click',function(){loadPageMyEvent(0);});
+$('#cri').on('click',function(){loadPageMyEvent(1);});
+$('#org').on('click',function(){loadPageMyEvent(2);});
+
+function loadPageMyEvent(i){
+  $('#cont_my_event').html("<img src='img/sets/loading.gif' id='loading'>");
+  $('#conf').removeClass('sel');
+  $('#cri').removeClass('sel');
+  $('#org').removeClass('sel');
+  if ( i == 0 ){
+    conf();
+    $('#conf').addClass('sel');
+    $('#tab_barra_event').css('margin-left','0%');
+  } else if ( i == 1 ){
+    cri();
+    $('#cri').addClass('sel');
+    $('#tab_barra_event').css('margin-left','33.3333%');
+  } else if ( i == 2 ){
+    org();
+    $('#org').addClass('sel');
+    $('#tab_barra_event').css('margin-left','66.6666%');
+  }
+  $("#cont_my_event").animate({scrollTop: 0 }, 0);
+}
+
+function conf(){
+  $.ajax({
+    type: "POST",
+    url: "http://usevou.com/app/event.php",
+    data: {
+        'q': 'my_conf',
+        'id': window.localStorage.getItem('IdUsu')
+    },
+    async: true,
+    dataType: "json",
+    success: function (json) {
+      if (json[0]['res'] == 1){
+        var html = '';
+        var j = 0;
+        for(var i=0;i<json.length;i++){
+          var ideve = json[i]["id"];
+          var lat = json[i]["lat"];
+          var lng = json[i]["lng"];
+          var img = json[i]["img"];
+          var dt_fim = json[i]["dt_fim"];
+          var dt_ini = json[i]["dt_ini"];
+          var hr_fim = json[i]["hr_fim"];
+          var hr_ini = json[i]["hr_ini"];
+          var nome = json[i]["nome"];
+          var coins = json[i]["coins"];
+          var numero = '';
+          var rua = '';
+          var bairro = '';
+          var cidade = '';
+
+          var url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat+','+lng + "&sensor=true";
+          $.getJSON(url, function (data) {
+            numero = data.results[0].address_components[0].short_name;
+            rua = data.results[0].address_components[1].short_name;
+            bairro = data.results[0].address_components[2].short_name;
+            cidade = data.results[0].address_components[3].short_name;
+            $('#c'+j).html(rua+', '+numero+' - '+bairro);
+            $('#l'+j).html(cidade);
+            j++;
+          });
+
+          html += '<div class="card_list" style="background-image:url(\''+img+'\')" onclick="localStorage.setItem(\'viewEvent\','+ideve+');window.location.href = \'evento.html\'">'+
+            '<div class="fundo_card">'+
+              (coins>0?'<div class="amigos_list"><img src="img/sets/selo.png"></div>':'')+
+              '<div class="info_list">'+
+                '<div class="icon_list"><img src="img/sets/ic_date.png"><div>'+(dt_fim==null?dt_ini:dt_ini+' - '+hr_ini)+'</div></div>'+
+                '<div class="icon_list"><img src="img/sets/ic_'+(dt_fim==null?'time':'date')+'.png"><div>'+(dt_fim==null?hr_ini:dt_fim+' - '+hr_fim)+'</div></div>'+
+              '</div>'+
+              '<div class="present_list">'+
+                '<div class="name_event">'+nome+'</div>'+
+                '<div class="name_create" id="c'+i+'"></div>'+
+                '<div class="name_locale" id="l'+i+'"></div>'+
+              '</div>'+
+            '</div>'+
+          '</div>';
+        }
+        $('#cont_my_event').html(html);
+      } else {
+        $('#cont_my_event').html('<div style="float:left;text-align:center;margin:10%;font-size:1.5em;width:80%;font-family:Lato-Light;">Infelizmente não há nenhum evento para mostrar aqui.</div>');
+      }
+    },error: function(xhr,e,t){
+      alert(xhr.responseText);
+    }
+  });
+}
+
+function cri(){
+  $.ajax({
+    type: "POST",
+    url: "http://usevou.com/app/event.php",
+    data: {
+        'q': 'my_cri',
+        'id': window.localStorage.getItem('IdUsu')
+    },
+    async: true,
+    dataType: "json",
+    success: function (json) {
+      if (json[0]['res'] == 1){
+        var html = '';
+        var j = 0;
+        for(var i=0;i<json.length;i++){
+          var ideve = json[i]["id"];
+          var lat = json[i]["lat"];
+          var lng = json[i]["lng"];
+          var img = json[i]["img"];
+          var dt_fim = json[i]["dt_fim"];
+          var dt_ini = json[i]["dt_ini"];
+          var hr_fim = json[i]["hr_fim"];
+          var hr_ini = json[i]["hr_ini"];
+          var nome = json[i]["nome"];
+          var coins = json[i]["coins"];
+          var numero = '';
+          var rua = '';
+          var bairro = '';
+          var cidade = '';
+
+          var url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat+','+lng + "&sensor=true";
+          $.getJSON(url, function (data) {
+            numero = data.results[0].address_components[0].short_name;
+            rua = data.results[0].address_components[1].short_name;
+            bairro = data.results[0].address_components[2].short_name;
+            cidade = data.results[0].address_components[3].short_name;
+            $('#c'+j).html(rua+', '+numero+' - '+bairro);
+            $('#l'+j).html(cidade);
+            j++;
+          });
+
+          html += '<div class="card_list" style="background-image:url(\''+img+'\')" onclick="localStorage.setItem(\'viewEvent\','+ideve+');window.location.href = \'evento.html\'">'+
+            '<div class="fundo_card">'+
+              (coins>0?'<div class="amigos_list"><img src="img/sets/selo.png"></div>':'')+
+              '<div class="info_list">'+
+                '<div class="icon_list"><img src="img/sets/ic_date.png"><div>'+(dt_fim==null?dt_ini:dt_ini+' - '+hr_ini)+'</div></div>'+
+                '<div class="icon_list"><img src="img/sets/ic_'+(dt_fim==null?'time':'date')+'.png"><div>'+(dt_fim==null?hr_ini:dt_fim+' - '+hr_fim)+'</div></div>'+
+              '</div>'+
+              '<div class="present_list">'+
+                '<div class="name_event">'+nome+'</div>'+
+                '<div class="name_create" id="c'+i+'"></div>'+
+                '<div class="name_locale" id="l'+i+'"></div>'+
+              '</div>'+
+            '</div>'+
+          '</div>';
+        }
+        $('#cont_my_event').html(html);
+      } else {
+        $('#cont_my_event').html('<div style="float:left;text-align:center;margin:10%;font-size:1.5em;width:80%;font-family:Lato-Light;">Infelizmente não há nenhum evento para mostrar aqui.</div>');
+      }
+    },error: function(xhr,e,t){
+      alert(xhr.responseText);
+    }
+  });
+}
+
+function org(){
+  $.ajax({
+    type: "POST",
+    url: "http://usevou.com/app/event.php",
+    data: {
+        'q': 'my_org',
+        'id': window.localStorage.getItem('IdUsu')
+    },
+    async: true,
+    dataType: "json",
+    success: function (json) {
+      if (json[0]['res'] == 1){
+        var html = '';
+        var j = 0;
+        for(var i=0;i<json.length;i++){
+          var ideve = json[i]["id"];
+          var lat = json[i]["lat"];
+          var lng = json[i]["lng"];
+          var img = json[i]["img"];
+          var dt_fim = json[i]["dt_fim"];
+          var dt_ini = json[i]["dt_ini"];
+          var hr_fim = json[i]["hr_fim"];
+          var hr_ini = json[i]["hr_ini"];
+          var nome = json[i]["nome"];
+          var coins = json[i]["coins"];
+          var numero = '';
+          var rua = '';
+          var bairro = '';
+          var cidade = '';
+
+          var url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat+','+lng + "&sensor=true";
+          $.getJSON(url, function (data) {
+            numero = data.results[0].address_components[0].short_name;
+            rua = data.results[0].address_components[1].short_name;
+            bairro = data.results[0].address_components[2].short_name;
+            cidade = data.results[0].address_components[3].short_name;
+            $('#c'+j).html(rua+', '+numero+' - '+bairro);
+            $('#l'+j).html(cidade);
+            j++;
+          });
+
+          html += '<div class="card_list" style="background-image:url(\''+img+'\')" onclick="localStorage.setItem(\'viewEvent\','+ideve+');window.location.href = \'evento.html\'">'+
+            '<div class="fundo_card">'+
+              (coins>0?'<div class="amigos_list"><img src="img/sets/selo.png"></div>':'')+
+              '<div class="info_list">'+
+                '<div class="icon_list"><img src="img/sets/ic_date.png"><div>'+(dt_fim==null?dt_ini:dt_ini+' - '+hr_ini)+'</div></div>'+
+                '<div class="icon_list"><img src="img/sets/ic_'+(dt_fim==null?'time':'date')+'.png"><div>'+(dt_fim==null?hr_ini:dt_fim+' - '+hr_fim)+'</div></div>'+
+              '</div>'+
+              '<div class="present_list">'+
+                '<div class="name_event">'+nome+'</div>'+
+                '<div class="name_create" id="c'+i+'"></div>'+
+                '<div class="name_locale" id="l'+i+'"></div>'+
+              '</div>'+
+            '</div>'+
+          '</div>';
+        }
+        $('#cont_my_event').html(html);
+      } else {
+        $('#cont_my_event').html('<div style="float:left;text-align:center;margin:10%;font-size:1.5em;width:80%;font-family:Lato-Light;">Infelizmente não há nenhum evento para mostrar aqui.</div>');
+      }
+    },error: function(xhr,e,t){
+      alert(xhr.responseText);
+    }
+  });
+}
+
+conf();
+</script>

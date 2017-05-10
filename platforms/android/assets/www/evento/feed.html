@@ -1,0 +1,210 @@
+<div id="post"><img src='img/sets/loading.gif' id='loading'></div>
+<script>
+  function curtir(id,c){
+    var num = parseInt($('#like'+id).html());
+    if ( c ){
+      $('#like'+id).html(''+(num-1));
+      $('#imgl'+id).attr('src','img/sets/ic_like.png');
+      $('#imgl'+id).attr('onclick','curtir('+id+',false)');
+
+    } else {
+      $('#like'+id).html(''+(num+1));
+      $('#imgl'+id).attr('src','img/sets/ic_like_curtido.png');
+      $('#imgl'+id).attr('onclick','curtir('+id+',true)');
+    }
+    $.ajax({
+      type: "POST",
+      url: "http://usevou.com/app/post.php",
+      data: {
+          'q': (c?'descurtir':'curtir'),
+          'idusuario': window.localStorage.getItem('IdUsu'),
+          'idpost': id,
+          'idcomentario': null
+      },
+      async: true,
+      dataType: "json",
+      success: function (json) {
+        if (json[0]['res'] == 1){
+        }
+      },error: function(xhr,e,t){
+        console.log(xhr.responseText);
+      }
+    });
+  }
+  var limit = 0;
+
+  function trim(str) {
+  	return str.replace(/^\s+|\s+$/g,"");
+  }
+
+  function excluir(id){
+    navigator.notification.confirm(
+        'Você realmente deseja excluir essa postagem?', // message
+         function(buttonIndex){
+           if(buttonIndex == 1){
+             $.ajax({
+               type: "POST",
+               url: "http://usevou.com/app/post.php",
+               data: {
+                   'q': 'del',
+                   'idpost': id
+               },
+               async: true,
+               dataType: "json",
+               success: function (json) {
+                 if (json[0]['res'] == 1){
+                   $('#'+id).remove();
+                 }
+               },error: function(xhr,e,t){
+                 alert(xhr.responseText);
+               }
+             });
+           }
+         },
+        'Excluir evento',           // title
+        ['Excluir','Cancelar']     // buttonLabels
+    );
+  }
+
+  function loadPost(){
+    $.ajax({
+      type: "POST",
+      url: "http://usevou.com/app/post.php",
+      data: {
+          'q': 'sel_event',
+          'idevent': localStorage.getItem('viewEvent'),
+          'limit': limit
+      },
+      async: true,
+      dataType: "json",
+      success: function (json) {
+        if ( limit == 0 ){
+          $('#post').html('');
+        } else {
+          $('#feed_load').remove();
+        }
+        if (json[0]['res'] == 1){
+          html = '';
+          for ( var i=0;i<json.length;i++ ){
+            html += '<div class="card" style="margin-top:2.5%;" id="'+json[i]['idpost']+'">'+
+              '<div class="cabecalho_card">'+
+                '<div class="ft_perfil_card" style="background-image:url(\''+json[i]['ft_perfil']+'\')" onclick="localStorage.setItem(\'viewProfile\','+json[i]['idusu']+');window.location.href=\'menu_lat/profile.html\'"></div>'+
+                '<div class="info_card">'+
+                  '<div class="nome_card" onclick="localStorage.setItem(\'viewProfile\','+json[i]['idusu']+');window.location.href=\'menu_lat/profile.html\'">'+json[i]['nome']+'</div>';
+            var hor = parseInt(json[i]['diff'].substr(0,2));
+            var min = parseInt(json[i]['diff'].substr(3,2));
+            var seg = parseInt(json[i]['diff'].substr(6,2));
+            if ( hor == 0 ){
+              if ( min == 0 ){
+                html += '<div class="data_card">Agora mesmo</div>';
+              } else {
+                html += '<div class="data_card">Há '+min+' minuto'+(min==1?'':'s')+' atrás</div>';
+              }
+            } else if ( hor < 24  ){
+              html += '<div class="data_card">Há '+hor+' hora'+(hor==1?'':'s')+' atrás</div>';
+            } else if ( hor < 96 ) {
+              var t = parseInt(hor / 24);
+              html += '<div class="data_card">Há '+t+' dias atrás</div>';
+            } else {
+              html += '<div class="data_card">'+json[i]['dt_hr']+'</div>';
+            }
+            html += '</div>';
+            if ( json[i]['idusu'] == window.localStorage.getItem('IdUsu') ){
+              html += '<div class="popup"><img src="img/sets/ic_del.png" onclick="excluir('+json[i]['idpost']+')"></div>';
+            }
+            html += '</div>'+
+              '<div class="conteudo_card">'+
+                '<p>'+json[i]['conteudo']+'</p>';
+                for ( var j=0;j<json[i]['midia'];j++ ){
+                  html += '<img src="'+json[i]['url'+j]+'">';
+                }
+                html += '</div>'+
+                '<div class="botoes_card">'+
+                  '<div class="btn_card">'+
+                    '<img src="img/sets/ic_like'+(json[i]['curtido']?'_curtido':'')+'.png" id="imgl'+json[i]['idpost']+'" onclick="curtir('+json[i]['idpost']+','+json[i]['curtido']+')">'+
+                    '<span id="like'+json[i]['idpost']+'" onclick="localStorage.setItem(\'idpost\','+json[i]['idpost']+');window.location.href = \'main_tabs/curtidas.html\'">'+json[i]['curtidas']+'</span>'+
+                  '</div>'+
+                  '<div class="btn_card" onclick="localStorage.setItem(\'idpost\','+json[i]['idpost']+');window.location.href = \'main_tabs/coments.html\'">'+
+                    '<span style="float:right;">'+json[i]['comentarios']+'</span>'+
+                    '<img src="img/sets/ic_comment.png" style="float:right;">'+
+                  '</div>'+
+                '</div>'+
+              '</div>';
+              html += '</div>'+
+            '</div>';
+          }
+          if ( i == 10 ){
+            html += "<img src='img/sets/loading.gif' id='feed_load'>";
+          }
+          $('#post').append(html);
+          $('.ft_perfil_card').height($('.ft_perfil_card').width());
+        } else {
+          if ( limit == 0 )
+            $('#post').append('<div style="float:left;text-align:center;margin:10%;font-size:1.5em;width:80%;font-family:Lato-Light;">Infelizmente não há nenhuma postagem para mostrar aqui.</div>');
+          else
+            $('#post').append('<div style="float:left;text-align:center;margin:2.5%;font-size:1.5em;width:95%;font-family:Lato-Light;">.</div>');
+          limit = -50;
+        }
+      },error: function(xhr,e,t){
+        alert(xhr.responseText);
+      }
+    });
+  }
+
+  $(document).scroll(function() {
+    if ($(this).scrollTop() + $('body').height() == $(this).get(0).scrollingElement.scrollHeight) {
+      if ( limit >= 0 ){
+        limit += 10;
+        loadPost();
+      }
+    }
+  });
+
+  function shared(id){
+    localStorage.setItem('idpost',id);
+    navigator.notification.prompt(
+        'Escreva algo sobre a publicação que você deseja compartilhar.',  // message
+        onShared,                  // callback to invoke
+        'Compartilhar',            // title
+        ['Compartilhar','Cancelar'],             // buttonLabels
+        ''                 // defaultText
+    );
+  }
+
+  function onShared(results){
+    alert(results.buttonIndex);
+    if ( results.buttonIndex == 1 ){
+      var input = results.input1;
+      cordova.plugin.pDialog.init({
+        theme : 'HOLO_LIGHT',
+        progressStyle : 'SPINNER',
+        cancelable : false,
+        title : 'Aguarde...',
+        message : 'Compartilhando.'
+      });
+      $.ajax({
+        type: "POST",
+        url: "http://usevou.com/app/post.php",
+        data: {
+            'q': 'shared',
+            'idpost': localStorage.getItem('idpost'),
+            'idusuario': window.localStorage.getItem('IdUsu'),
+            'conteudo': trim(input)
+        },
+        async: false,
+        dataType: "json",
+        success: function (json) {
+          cordova.plugin.pDialog.dismiss();
+          if (json[0]['res'] == 1){
+            window.location.href='main.html';
+          }
+        },error: function(xhr,e,t){
+          cordova.plugin.pDialog.dismiss();
+          alert(xhr.responseText);
+        }
+      });
+    }
+  }
+
+  loadPost();
+</script>

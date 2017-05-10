@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <link rel="stylesheet" type="text/css" href="../css/profile.css">
+        <title>Vou</title>
+    </head>
+    <body>
+      <div id="option">
+        <div class="op" id="show">Ver foto</div>
+        <!--<div class="op" id="camera">Tirar foto</div>-->
+        <div class="op" id="gallery">Escolher foto da galeria</div>
+      </div>
+      <div id="fundo"></div>
+      <div id="topo">
+        <div class="btn_topo" id="back" style="float:left;"><img src="../img/sets/ic_back.png"></div>
+        <a href="../profile/edit_profile.html"><div class="btn_topo" style="float:right;display:none;" id="edit"><img src="../img/sets/ic_edit_profile.png"></div></a>
+        <div class="btn_topo" style="float:right;display:none;" id="seg"><img src="../img/sets/ic_seg_white.png"></div>
+        <div id="label_topo"></div>
+      </div>
+      <div id="header_profile">
+        <div id="fundo_profile">
+          <div id="info_profile">
+            <div id="ft_perfil"></div>
+            <div id="profile">
+              <div id="name_profile"></div>
+              <div id="age_profile"></div>
+              <div id="locale_profile"></div>
+            </div>
+          </div>
+          <div id="seg_info">
+            <div class="seg"><div class="label_seg">Seguidores</div><div class="num_seg" id="seguidores"></div></div>
+            <div class="seg"><div class="label_seg">Seguindo</div><div class="num_seg" id="seguindo"></div></div>
+          </div>
+        </div>
+        <div id="barra">
+          <ul>
+            <li id="feed"><span>Feed</span></li>
+            <li id="about"><span>Sobre</span></li>
+            <li id="galery"><span>Galeria</span></li>
+            <li id="events"><span>Eventos</span></li>
+          </ul>
+          <div id="tab_barra"></div>
+        </div>
+      </div>
+      <div id="conteudo"></div>
+      <script src="../js/jquery.min.js"></script>
+      <script type="text/javascript" src="../cordova.js"></script>
+      <script type="text/javascript" src="../js/profile.js"></script>
+    </body>
+</html>

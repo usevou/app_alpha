@@ -1,0 +1,122 @@
+<div id="ab"><img src='img/sets/loading.gif' id='loading'></div>
+<script>
+var id = localStorage.getItem('viewEvent');
+$.ajax({
+  type: "POST",
+  url: "http://usevou.com/app/event.php",
+  data: {
+      'q': 'about',
+      'ideve': id
+  },
+  async: true,
+  dataType: "json",
+  success: function (json) {
+    if (json[0]['res'] == 1){
+      $('#ab').html('');
+      if ( json[0]['desc'] != null ){
+        $('#ab').append('<div class="card_sobre">'+
+                              '<div class="conteudo_card">'+
+                                '<div class="c_table">'+
+                                  '<div class="img_card"><img src="img/sets/ic_desc.png"></div>'+
+                                  '<div class="cont_card">'+
+                                    '<div class="t_cont">Descricão</div><div class="c_cont">'+json[0]['desc']+'</div>'+
+                                  '</div>'+
+                                '</div>'+
+                              '</div>'+
+                            '</div>');
+      }
+
+      $('#ab').append('<div class="card_sobre">'+
+                            '<div class="conteudo_card">'+
+                              '<div class="c_table">'+
+                                '<div class="img_card"><img src="img/sets/ic_city.png"></div>'+
+                                '<div class="cont_card">'+
+                                  '<div class="c_cont" id="map" style="height:150px;"></div>'+
+                                '</div>'+
+                              '</div>'+
+                            '</div>'+
+                          '</div>');
+
+      var map = new L.Map('map');
+
+      var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+      var osmAttrib = 'Map data © OpenStreetMap contributors';
+      var osm = new L.TileLayer(osmUrl, { attribution: osmAttrib });
+
+      function onMapClick(e) {
+        launchnavigator.navigate([ json[0]['lat'] , json[0]['lng'] ]);
+      }
+      map.on('click', onMapClick);
+
+      map.setView(new L.LatLng(json[0]['lat'], json[0]['lng']), 16);
+      map.addLayer(osm);
+
+      var myIcon = L.icon({
+        iconUrl: 'img/sets/ic_pin_n.png',
+        iconSize: [36, 36],
+        iconAnchor: [18, 36]
+      });
+
+      var marker = L.marker([json[0]['lat'], json[0]['lng']],{icon: myIcon}).addTo(map);
+
+      $('#ab').append('<div class="card_sobre">'+
+                            '<div class="conteudo_card">'+
+                              '<div class="c_table">'+
+                                '<div class="img_card"><img src="img/sets/ic_adm.png"></div>'+
+                                '<div class="cont_card">'+
+                                  '<div class="t_cont">Criador</div>'+
+                                  '<div class="c_cont" style="display:table;width:100%;" onclick="localStorage.setItem(\'viewProfile\','+json[0]['idusu']+');window.location.href = \'menu_lat/profile.html\'">'+
+                                    '<div class="ft_perfil" style="background-image:url('+json[0]['foto']+')"></div>'+
+                                    '<div class="name">'+json[0]['nome']+'</div>'+
+                                  '</div>'+
+                                '</div>'+
+                              '</div>'+
+                            '</div>'+
+                          '</div>');
+
+      if ( json[0]['org'] > 0 ){
+        html = '<div class="card_sobre">'+
+                  '<div class="conteudo_card">'+
+                    '<div class="c_table">'+
+                      '<div class="img_card"><img src="img/sets/ic_perfil.png"></div>'+
+                      '<div class="cont_card">'+
+                        '<div class="t_cont">Organizadores</div>';
+        for ( var i=0;i<json[0]['org'];i++ ){
+          html += '<div class="c_cont" style="display:table;width:100%;" onclick="localStorage.setItem(\'viewProfile\','+json[0]['o'][i]['idusu']+');window.location.href = \'menu_lat/profile.html\'">'+
+                    '<div class="ft_perfil" style="background-image:url('+json[0]['o'][i]['foto']+')"></div>'+
+                    '<div class="name">'+json[0]['o'][i]['nome']+'</div>'+
+                  '</div><div class="line"></div>';
+        }
+        html += '</div>'+
+              '</div>'+
+              '</div>'+
+              '</div>';
+        $('#ab').append(html);
+      }
+      $('.ft_perfil').height($('.ft_perfil').width());
+
+      if ( json[0]['tag'] > 0 ){
+        html = '<div class="card_sobre">'+
+                  '<div class="conteudo_card">'+
+                    '<div class="c_table">'+
+                      '<div class="img_card"><img src="img/sets/ic_tag.png"></div>'+
+                      '<div class="cont_card">'+
+                    '<div class="t_cont">Tags</div>'+
+                      '<div class="c_cont">';
+        for ( var i=0;i<json[0]['tag'];i++ ){
+          html += '<div class="tag">#'+json[0]['t'][i]['nome']+'</div>';
+        }
+        html += '</div>'+
+              '</div>'+
+              '</div>'+
+              '</div>'+
+              '</div>';
+        $('#ab').append(html);
+      }
+
+    }
+  },error: function(xhr,e,t){
+    alert(xhr.responseText);
+  }
+});
+</script>

@@ -1,0 +1,164 @@
+<div class="card_sobre" style="margin-top:2.5%;">
+  <div class="conteudo_card">
+    <div class="c_table">
+      <div class="img_card"><img src="../img/sets/ic_agenda.png"></div>
+      <div class="cont_card">
+        <div class="t_cont">Data de nascimento</div>
+        <div class="c_cont" id="dt_nasc"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card_sobre" style="margin-top:2.5%;">
+  <div class="conteudo_card">
+    <div class="c_table">
+      <div class="img_card"><img src="../img/sets/ic_city.png"></div>
+      <div class="cont_card">
+        <div class="t_cont">Mora em</div>
+        <div class="c_cont" id="city"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+var id = localStorage.getItem('viewProfile');
+$.ajax({
+  type: "POST",
+  url: "http://usevou.com/app/profile.php",
+  data: {
+      'q': 'about',
+      'id': id
+  },
+  async: true,
+  dataType: "json",
+  success: function (json) {
+    console.log('teste');
+    if (json[0]['res'] == 1){
+      $('#dt_nasc').html(json[0]['data']);
+      if ( id == window.localStorage.getItem('IdUsu') ){
+        city = window.localStorage.getItem('CidadeUsu');
+      } else {
+        city = localStorage.getItem('viewCidadeUsu');
+      }
+      $('#city').html(city);
+      if ( json[0]['relacionamento'] != null ){
+        $('#conteudo').append('<div class="card_sobre">'+
+          '<div class="conteudo_card">'+
+            '<div class="c_table">'+
+              '<div class="img_card"><img src="../img/sets/ic_relac.png"></div>'+
+              '<div class="cont_card">'+
+                '<div class="t_cont">Relacionamento</div>'+
+                '<div class="c_cont" id="relacionamento">'+json[0]['relacionamento']+'</div>'+
+              '</div>'+
+            '</div>'+
+          '</div>'+
+        '</div>');
+      }
+      if ( json[0]['genero'] != null ){
+        html = '<div class="card_sobre">'+
+          '<div class="conteudo_card">'+
+            '<div class="c_table"><div class="img_card"><img src="../img/sets/ic_genero.png"></div><div class="cont_card"><div class="t_cont">Gênero</div><div class="c_cont">';
+        if ( json[0]['genero'] == 0 ){
+          html += 'Masculino';
+        } else if ( json[0]['genero'] == 1 ){
+          html += 'Feminino';
+        }
+        html += '</div></div></div>'+
+          '</div>'+
+        '</div>';
+        $('#conteudo').append(html);
+      }
+      if ( json[0]['t'] != 0 ){
+        var nt = json[0]['nt'].split(',');
+        html = '<div class="card_sobre">'+
+          '<div class="conteudo_card">'+
+            '<div class="c_table"><div class="img_card"><img src="../img/sets/ic_tag.png"></div><div class="cont_card"><div class="t_cont">Interesse</div><div class="c_cont">';
+        for ( var j=0;j<nt.length;j++ ){
+          html += '<div class="tag"><span>#'+nt[j]+'</span></div>';
+        }
+        html += '</div></div></div>'+
+          '</div>'+
+        '</div>';
+        $('#conteudo').append(html);
+      }
+      if ( json[0]['descricao'] != null ){
+        $('#conteudo').append('<div class="card_sobre">'+
+          '<div class="conteudo_card">'+
+            '<div class="c_table"><div class="img_card"><img src="../img/sets/ic_desc.png"></div><div class="cont_card"><div class="c_cont" style="margin-top:0%;">'+json[0]['descricao']+'</div></div></div>'+
+          '</div>'+
+        '</div>');
+      }
+      /*if ( json[0]['social'] > 0 ){
+        html = '<div class="card">'+
+          '<div class="conteudo_card"><div class="t_cont">Redes sociais</div><div class="c_cont" id="redes" style="width:100%;">';
+        for(var i=0;i<json[0]["social"];i++){
+          html += '<div id="'+json[0][i]['nome']+'" class="icon_rede"><img src="../img/sets/'+json[0][i]['img']+'" id="'+json[0][i]['conteudo']+'"></div>';
+        }
+        html += '</div></div>'+
+        '</div>';
+        $('#conteudo').append(html);
+        $('#redes div').on('click',function(){
+          var id = $(this).attr('id');
+          if (id == 'Whatsapp'){
+
+          } else if (id == 'Facebook'){
+            startApp.set({
+              "action": "ACTION_VIEW",
+              "uri": "fb://facewebmodal/f?href=https://www.facebook.com/"+$('#'+id+' img').attr('id')
+            }).start(function(){}, function(erro){
+              startApp.set({
+                "action": "ACTION_VIEW",
+                "uri": "https://www.facebook.com/"+$('#'+id+' img').attr('id')
+              }).start(function(){}, function(erro){
+                alert(erro);
+              });
+            });
+          } else if (id == 'Instagram'){
+            startApp.set({
+              "action": "ACTION_SEND",
+              "package": "com.instagram.android",
+              "uri": "https://www.instagram.com/_u/"+$('#'+id+' img').attr('id')
+            }).start(function(){}, function(erro){
+              startApp.set({
+                "action": "ACTION_VIEW",
+                "uri": "https://www.instagram.com/_u/"+$('#'+id+' img').attr('id')
+              }).start(function(){}, function(erro){
+                alert(erro);
+              });
+            });
+          } else if (id == 'Snapchat'){
+            startApp.set({
+              "action": "ACTION_SEND",
+              "package": "com.snapchat.android",
+              "uri": "https://snapchat.com/add/"+$('#'+id+' img').attr('id')
+            }).start(function(){}, function(erro){
+              startApp.set({
+                "action": "ACTION_VIEW",
+                "uri": "https://snapchat.com/add/"+$('#'+id+' img').attr('id')
+              }).start(function(){}, function(erro){
+                alert(erro);
+              });
+            });
+          } else if (id == 'Twitter'){
+            startApp.set({
+              "action": "ACTION_SEND",
+              "package": "com.twitter.android",
+              "uri": "twitter://user?user_id="+$('#'+id+' img').attr('id')
+            }).start(function(){}, function(erro){
+              startApp.set({
+                "action": "ACTION_VIEW",
+                "uri": "https://twitter.com/"+$('#'+id+' img').attr('id')
+              }).start(function(){}, function(erro){
+                alert(erro);
+              });
+            });
+          }
+        });
+      }*/
+    }
+  },error: function(xhr,e,t){
+    console.log(xhr.responseText);
+    alert(xhr.responseText);
+  }
+});
+</script>

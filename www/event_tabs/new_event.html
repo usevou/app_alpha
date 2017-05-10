@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0" />
+        <link rel="stylesheet" type="text/css" href="../css/new_event.css">
+        <title>Vou</title>
+    </head>
+    <body>
+      <div id="topo">
+        <div class="btn_topo" id="back" style="float:left;"><img src="../img/sets/ic_back.png"></div>
+        <div class="btn_topo" id="confirm" style="float:right;"><img src="../img/sets/ic_talvez.png"></div>
+        <div id="label_topo">Criar evento</div>
+      </div>
+      <div id="conteudo">
+        <div id="foto_evento">
+          <label for="input" id="button">Selecionar imagem</label>
+          <input type="file" class="cropit-image-input" accept="image/*" id="input">
+        </div>
+        <div class="layout_input" id="laynome">
+          <div class="label_input" id="lNome">Nome</div>
+          <input type="text" name="nome" id="nome" autocomplete="off">
+        </div>
+        <div class="layout_input" id="laylocal">
+          <div class="label_input" id="lLocal">Localização</div>
+          <input type="text" name="nome" id="local" autocomplete="off">
+        </div>
+        <div class="layout_input" style="width:42.5%;" id="laydt_ini">
+          <div class="label_input" id="lDtini">Data de início</div>
+          <input type="date" name="dtini" id="dtini" autocomplete="off">
+        </div>
+        <div class="layout_input" style="width:42.5%;padding-left:0%;" id="layhr_ini">
+          <div class="label_input" id="lHrini">Hora de início</div>
+          <input type="time" name="hrini" id="hrini" autocomplete="off">
+        </div>
+        <div class="myCheckbox" id="laycheck">
+            <input type="checkbox" id="check"/>
+            <span>Definir data e hora de término do evento</span>
+        </div>
+        <div class="layout_input" style="width:42.5%;padding-top:5%;" id="dt_fim">
+          <div class="label_input" id="lDtfim">Data de término</div>
+          <input type="date" name="dtfim" id="dtfim" autocomplete="off">
+        </div>
+        <div class="layout_input" style="width:42.5%;padding-left:0%;padding-top:5%;" id="hr_fim">
+          <div class="label_input" id="lHrfim">Hora de término</div>
+          <input type="time" name="hrfim" id="hrfim" autocomplete="off">
+        </div>
+        <div class="layout_input" id="laydesc">
+          <div class="label_input" id="lDesc">Descrição do evento</div>
+          <textarea name="desc" id="desc"></textarea>
+        </div>
+        <div class="layout_input" id="laytag">
+          <div class="label_input" id="lTipo">Tags do evento</div>
+          <div class="see_pass" id="ok"><img src="../img/sets/ic_talvez_cinza.png"></div>
+          <input type="text" name="tipo" id="tipo" autocomplete="off" list='tags' style="width:90%;"><datalist id='tags'></datalist>
+          <div id="table_tags">Nenhuma tag adicionada</div>
+        </div>
+        <div class="layout_input" id="layorg">
+          <div class="label_input" id="lOrg">Organizadores</div>
+          <div class="see_pass" id="ok_org"><img src="../img/sets/ic_talvez_cinza.png"></div>
+          <input type="text" name="org" id="org" autocomplete="off" style="width:90%;">
+          <div id="list_org">
+            <ul id="ul_org"></ul>
+          </div>
+          <div id="table_org"><div style="padding:5%;">Nenhum organizador adicionado</div></div>
+        </div>
+        <div class="layout_input" style="width:42.5%;padding-top:10%;">
+          <div class="title_label">Faixa de preço dos ingressos</div>
+          <div class="label_input" id="lDe">De</div>
+          <input type="number" name="de" id="de" autocomplete="off">
+        </div>
+        <div class="layout_input" style="width:42.5%;padding-left:0%;padding-top:10%;">
+          <div class="label_input" id="lAte">Até</div>
+          <input type="number" name="ate" id="ate" autocomplete="off">
+        </div>
+        <div class="layout_input" id="laypriv">
+          <div class="label_input" id="lPriv">Privacidade do evento</div>
+          <select name="prov" id="priv">
+            <option value="1">Público</option>
+            <option value="2">Privado</option>
+          </select>
+          <div class="txt_descritivo" id="t_priv">
+            Este evento poderá ser visto e acessado por qualquer pessoa próxima da localidade do evento.
+          </div>
+        </div>
+        <div class="myCheckbox" id="laypublic">
+            <input type="checkbox" id="public"/>
+            <span>Permitir publicações de convidados</span>
+        </div>
+        <div id="erro"></div>
+      </div>
+      <script src="../js/jquery.min.js"></script>
+      <script src="../cordova.js"></script>
+      <script src="../js/autosize.js"></script>
+      <script src="../js/new_event.js"></script>
+    </body>
+</html>

@@ -1,0 +1,79 @@
+<div id="list"><img src='img/sets/loading.gif' id='loading'></div>
+<script>
+  var url = '';
+  if ( localStorage.getItem('filterTag') != null ){
+    if ( localStorage.getItem('filterDtIni') != null ){
+      url = '_tag_date';
+    } else {
+      url = '_tag';
+    }
+  } else if ( localStorage.getItem('filterDtIni') != null ){
+    url = '_date';
+  }
+
+  $.ajax({
+    type: "POST",
+    url: "http://usevou.com/app/event.php",
+    data: {
+        'q': 'map'+url,
+        'tag': localStorage.getItem('filterTag'),
+        'dtini': localStorage.getItem('filterDtIni'),
+        'dtfim': localStorage.getItem('filterDtFim')
+    },
+    async: true,
+    dataType: "json",
+    success: function (json) {
+      if (json[0]['res'] == 1){
+        var html = '';
+        var j = 0;
+        for(var i=0;i<json.length;i++){
+          var ideve = json[i]["id"];
+          var lat = json[i]["lat"];
+          var lng = json[i]["lng"];
+          var img = json[i]["img"];
+          var dt_fim = json[i]["dt_fim"];
+          var dt_ini = json[i]["dt_ini"];
+          var hr_fim = json[i]["hr_fim"];
+          var hr_ini = json[i]["hr_ini"];
+          var nome = json[i]["nome"];
+          var coins = json[i]["coins"];
+          var numero = '';
+          var rua = '';
+          var bairro = '';
+          var cidade = '';
+
+          var url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat+','+lng + "&sensor=true";
+          $.getJSON(url, function (data) {
+            numero = data.results[0].address_components[0].short_name;
+            rua = data.results[0].address_components[1].short_name;
+            bairro = data.results[0].address_components[2].short_name;
+            cidade = data.results[0].address_components[3].short_name;
+            $('#c'+j).html(rua+', '+numero+' - '+bairro);
+            $('#l'+j).html(cidade);
+            j++;
+          });
+
+          html += '<div class="card_list" style="background-image:url(\''+img+'\')" onclick="localStorage.setItem(\'viewEvent\','+ideve+');window.location.href = \'evento.html\'">'+
+            '<div class="fundo_card">'+
+              (coins>0?'<div class="amigos_list"><img src="img/sets/selo.png"></div>':'')+
+              '<div class="info_list">'+
+                '<div class="icon_list"><img src="img/sets/ic_date.png"><div>'+(dt_fim==null?dt_ini:dt_ini+' - '+hr_ini)+'</div></div>'+
+                '<div class="icon_list"><img src="img/sets/ic_'+(dt_fim==null?'time':'date')+'.png"><div>'+(dt_fim==null?hr_ini:dt_fim+' - '+hr_fim)+'</div></div>'+
+              '</div>'+
+              '<div class="present_list">'+
+                '<div class="name_event">'+nome+'</div>'+
+                '<div class="name_create" id="c'+i+'"></div>'+
+                '<div class="name_locale" id="l'+i+'"></div>'+
+              '</div>'+
+            '</div>'+
+          '</div>';
+        }
+        $('#list').html(html);
+      } else {
+        $('#list').html('<div style="float:left;text-align:center;margin:10%;font-size:1.5em;width:80%;font-family:Lato-Light;">Infelizmente não há nenhum evento para mostrar aqui.</div>');
+      }
+    },error: function(xhr,e,t){
+      alert(xhr.responseText);
+    }
+  });
+</script>

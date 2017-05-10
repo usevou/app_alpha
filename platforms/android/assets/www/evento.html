@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <link rel="stylesheet" type="text/css" href="css/evento.css">
+        <link rel="stylesheet" type="text/css" href="leaflet/leaflet.css" />
+        <title>Vou</title>
+    </head>
+    <body>
+      <div id="topo">
+        <div class="btn_topo" id="back" style="float:left;"><img src="img/sets/ic_back.png"></div>
+        <div class="btn_topo" style="float:right;display:none;margin-left:0%;" id="coin"><img src="img/sets/selo.png"></div>
+        <div class="btn_topo" style="float:right;display:none;margin-left:0%;" id="del"><img src="img/sets/ic_del_white.png"></div>
+        <a href="evento/edit_evento.html"><div class="btn_topo" style="float:right;display:none;margin-left:0%;" id="edit"><img src="img/sets/ic_edit_profile.png"></div></a>
+        <div id="label_topo"></div>
+      </div>
+      <div id="header_profile">
+        <div id="fundo_card">
+          <div id="amigos_list"></div>
+          <div id="info_list">
+            <div class="icon_list" id="fx"><img src="img/sets/ic_coin_eve.png"><div id="faixa"></div></div>
+            <div class="icon_list"><img src="img/sets/ic_date.png"><div id="date"></div></div>
+            <div class="icon_list"><img src="img/sets/ic_time.png" id="img_fim"><div id="hr"></div></div>
+          </div>
+          <div id="present_list">
+            <div id="name_event"></div>
+            <div id="name_create"></div>
+            <div id="name_locale"></div>
+          </div>
+          <div id="conv"></div>
+        </div>
+        <div id="barra">
+          <ul>
+            <li id="feed"><span>Feed</span></li>
+            <li id="about"><span>Sobre</span></li>
+          </ul>
+          <div id="tab_barra"></div>
+        </div>
+      </div>
+      <div id="conteudo"></div>
+      <div id="floating"><img src="img/sets/ic_publication.png"></div>
+      <script src="js/jquery.min.js"></script>
+      <script type="text/javascript" src="cordova.js"></script>
+      <script type="text/javascript" src="leaflet/leaflet.js"></script>
+      <script type="text/javascript" src="js/evento.js"></script>
+    </body>
+</html>

@@ -1,0 +1,112 @@
+<div id="map"></div>
+<script>
+var latitude;
+var longitude;
+var map = new L.Map('map');
+var watchID = null;
+var geo = true;
+var marker = [];
+var popup = [];
+
+function onSuccess(position) {
+  if ( geo ){
+    geo = false;
+    latitude = position.coords.latitude;
+    longitude = position.coords.longitude;
+
+    var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    var osmAttrib = 'Map data © OpenStreetMap contributors';
+    var osm = new L.TileLayer(osmUrl, { attribution: osmAttrib });
+
+    map.setView(new L.LatLng(latitude, longitude), 16);
+    map.addLayer(osm);
+    var iconL = L.icon({
+      iconUrl: 'img/sets/ic_pin_g.png',
+      iconSize: [48, 48],
+      iconAnchor: [24, 48]
+    });
+    var iconS = L.icon({
+      iconUrl: 'img/sets/ic_pin_n.png',
+      iconSize: [36, 36],
+      iconAnchor: [18, 36]
+    });
+    var circle = L.circleMarker(new L.LatLng(latitude, longitude),null);
+    var url = '';
+    if ( localStorage.getItem('filterTag') != null ){
+      if ( localStorage.getItem('filterDtIni') != null ){
+        url = '_tag_date';
+      } else {
+        url = '_tag';
+      }
+    } else if ( localStorage.getItem('filterDtIni') != null ){
+      url = '_date';
+    }
+
+    $.ajax({
+      type: "POST",
+      url: "http://usevou.com/app/event.php",
+      data: {
+          'q': 'map'+url,
+          'tag': localStorage.getItem('filterTag'),
+          'dtini': localStorage.getItem('filterDtIni'),
+          'dtfim': localStorage.getItem('filterDtFim')
+      },
+      async: true,
+      dataType: "json",
+      success: function (json) {
+        var j = 0;
+        if (json[0]['res'] == 1){
+          for(var i=0;i<json.length;i++){
+            var ideve = json[i]["id"];
+            var lat = json[i]["lat"];
+            var lng = json[i]["lng"];
+            var img = json[i]["img"];
+            var pre = json[i]["pre"];
+            var dt_fim = json[i]["dt_fim"];
+            var dt_ini = json[i]["dt_ini"];
+            var hr_fim = json[i]["hr_fim"];
+            var hr_ini = json[i]["hr_ini"];
+            var nome = json[i]["nome"];
+            var coins = json[i]["coins"];
+
+            popup[lat+','+lng] = L.popup()
+              .setLatLng(new L.LatLng(lat, lng))
+              .setContent('<div class="card_list_map" style="background-image:url(\''+img+'\')" onclick="localStorage.setItem(\'viewEvent\','+ideve+');window.location.href = \'evento.html\'">'+
+                '<div class="fundo_card">'+
+                  '<div class="info_list">'+
+                    '<div class="icon_list"><img src="img/sets/ic_date.png"><div>'+(dt_fim==null?dt_ini:dt_ini+' - '+hr_ini)+'</div></div>'+
+                    '<div class="icon_list"><img src="img/sets/ic_'+(dt_fim==null?'time':'date')+'.png"><div>'+(dt_fim==null?hr_ini:dt_fim+' - '+hr_fim)+'</div></div>'+
+                  '</div>'+
+                  (coins>0?'<div class="amigos_list"><img src="img/sets/selo.png"></div>':'')+
+                  '<div class="present_list">'+
+                    '<div class="name_event">'+nome+'</div>'+
+                  '</div>'+
+                '</div>'+
+              '</div>')
+
+            if ( json[i]["coins"] == 1 ){
+              var icon = iconL;
+            } else {
+              var icon = iconS;
+            }
+
+            marker[i] = L.marker([lat, lng],{icon: icon}).addTo(map).on('click',function(e){
+              popup[e.latlng.lat+','+e.latlng.lng].openOn(map);
+            });
+          }
+        }
+      },error: function(xhr,e,t){
+        alert(xhr.responseText);
+      }
+    });
+  }
+}
+
+function onError(error) {
+    alert('code: '    + error.code    + '\n' +
+          'message: ' + error.message + '\n');
+}
+
+watchID = navigator.geolocation.watchPosition(onSuccess, onError);
+
+</script>

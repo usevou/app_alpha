@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <title>Vou</title>
+        <script>
+          var session = localStorage.getItem('session');
+          if ( session ){
+            window.location.href = "main.html";
+          }
+        </script>
+    </head>
+    <body>
+      <div id="imgfundo"></div>
+      <div id="fundo"></div>
+      <div id="logo">
+        <img src="img/sets/logo_index.png"/>
+      </div>
+      <div id="bottom">
+        <div>
+          <a href="cadastrar.html"><div class="botao" id="cadastrar" style="background:#27A9E1;">Cadastrar</div></a>
+          <a href="entrar.html"><div class="botao" id="entrar" style="background:#652C90;">Entrar</div></a>
+        </div>
+      </div>
+      <script type="text/javascript" src="js/jquery.min.js"></script>
+      <script type="text/javascript" src="js/index.js"></script>
+    </body>
+</html>
